@@ -1,18 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using ReGoap.Core;
 
-public class ReGoapAgentAdvanced : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+namespace ReGoap.Unity {
+    /// <summary>
+    /// 高级版AI代理（自动进行Goal更新，不让他闲着）
+    /// </summary>
+    public class ReGoapAgentAdvanced<T, W> : ReGoapAgent<T, W> {
+        #region
+        protected virtual void Update() {
+            possibleGoalsDirty = true;
+            if (currentActionState == null) {
+                if (!IsPlanning)
+                    CalculateNewGoal();
+                return;
+            }
+        }
+        #endregion
     }
 }
