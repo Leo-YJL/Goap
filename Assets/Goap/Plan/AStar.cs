@@ -128,7 +128,7 @@ namespace ReGoap.Planner {
 
             var iterations = 0;
             //BFS遍历
-            while ((frontier.Count > 0 &&(iterations < maxIterations) && (frontier.Count + 1 < frontier.MaxSize) ) {
+            while ((frontier.Count > 0 &&(iterations < maxIterations) && (frontier.Count + 1 < frontier.MaxSize))){
                 //取出cost最小的队首
                 var node = frontier.Dequeue();
                 //如果是Goal就退出规划
@@ -180,6 +180,7 @@ namespace ReGoap.Planner {
             }
             ReGoapLogger.LogWarning("[Astar] failed.");
             EndDebugPlan(null);
+            return null;
         }
     } 
 

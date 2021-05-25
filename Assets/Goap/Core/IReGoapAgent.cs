@@ -30,7 +30,7 @@ namespace ReGoap.Core {
         /// 获取正在启用的Plan
         /// </summary>
         /// <returns></returns>
-        List<ReGoapState<T, W>> GetStartingPlan();
+        List<ReGoapActionState<T, W>> GetStartingPlan();
 
         /// <summary>
         /// 获取Plan的值
@@ -59,7 +59,7 @@ namespace ReGoap.Core {
         /// 获取Action的集合，注意线程安全
         /// </summary>
         /// <returns></returns>
-        List<IReGoapAction<T, W>> GetActionSet();
+        List<IReGoapAction<T, W>> GetActionsSet();
         /// <summary>
         /// 实例化一个新的state
         /// </summary>

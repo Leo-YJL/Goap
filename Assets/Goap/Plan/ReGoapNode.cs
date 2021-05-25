@@ -145,7 +145,8 @@ namespace ReGoap.Planner {
         /// <param name="actionSettings">Action Setting</param>
         /// <returns>封装好的节点</returns>
         public static ReGoapNode<T,W> Instantiate(IGoapPlanner<T, W> planner, ReGoapState<T, W> newGoal,
-            ReGoapNode<T, W> parent, IReGoapAction<T, W> action, ReGoapState<T, W> actionSettings{
+            ReGoapNode<T, W> parent, IReGoapAction<T, W> action, ReGoapState<T, W> actionSettings)
+        {
 
             ReGoapNode<T, W> node;
             if (cachedNodes == null) {
