@@ -87,7 +87,7 @@ namespace ReGoap.Planner {
                     stackData.settings = null;
                     //先进行预先检查便利，如果不通过就直接排除，如果通过再进行A*遍历
                     //遍历Action集合进行检查
-                    foreach (var action in goapAgent.GetActionSet()) {
+                    foreach (var action in goapAgent.GetActionsSet()) {
                         action.Precalculations(stackData);
                         if (!action.CheckProceduralCondition(stackData)) {
                             continue;

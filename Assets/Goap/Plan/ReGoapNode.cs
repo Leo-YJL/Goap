@@ -87,7 +87,7 @@ namespace ReGoap.Planner {
                 stackData.agent = planner.GetCurrentAgent();
                 stackData.settings = actionSetting;
 
-                PreConditions = action.GetPreconditions(stackData);
+                Preconditions = action.GetPreconditions(stackData);
                 Effects = action.GetEffect(stackData);
                 //把这个action的权重加到g上
                 g += action.GetCost(stackData);
@@ -96,7 +96,7 @@ namespace ReGoap.Planner {
                 //只在Goal状态集中保留与Effects中不同的部分
                 Goal.ReplaceWithMissingDifference(Effects);
                 //把preconditions 的precondition加到当前的goal上
-                Goal.AddFromState(PreConditions);
+                Goal.AddFromState(Preconditions);
             } else {
                 Goal = newGoal;
             }
@@ -168,7 +168,7 @@ namespace ReGoap.Planner {
 
         public ReGoapState<T, W> Effects { get; private set; }
 
-        public ReGoapState<T, W> PreConditions { get; private set; }
+        public ReGoapState<T, W> Preconditions { get; private set; }
 
         /// <summary>
         /// 优先级队列中索引
@@ -195,7 +195,7 @@ namespace ReGoap.Planner {
         public List<INode<ReGoapState<T, W>>> Expand() {
             expandList.Clear();
             var agent = planner.GetCurrentAgent();
-            var actions = agent.GetActionSet();
+            var actions = agent.GetActionsSet();
             GoapActionStackData<T, W> stackData;
             stackData.currentState = state;
             stackData.goalState = Goal;
