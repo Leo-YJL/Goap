@@ -29,11 +29,11 @@ namespace ReGoap.Unity {
         /// <summary>
         /// 完成时回调
         /// </summary>
-        protected Action<IReGoapAction<T, W>> doneCallBack;
+        protected Action<IReGoapAction<T, W>> doneCallback;
         /// <summary>
         /// 失败时回调
         /// </summary>
-        protected Action<IReGoapAction<T, W>> failCallBack;
+        protected Action<IReGoapAction<T, W>> failCallback;
         /// <summary>
         /// 前一个节点
         /// </summary>
@@ -105,13 +105,13 @@ namespace ReGoap.Unity {
         /// <summary>
         /// 获取设置
         /// </summary>
-        public List<ReGoapState<T, W>> GetSettings(GoapActionStackData<T, W> stackData) {
+        public virtual List<ReGoapState<T, W>> GetSettings(GoapActionStackData<T, W> stackData) {
             return new List<ReGoapState<T, W>> { settings };
         }
         /// <summary>
         /// 获取先决条件
         /// </summary>
-        public ReGoapState<T, W> GetPreconditions(GoapActionStackData<T, W> stackData) {
+        public virtual ReGoapState<T, W> GetPreconditions(GoapActionStackData<T, W> stackData) {
             return preconditions;
         }
         /// <summary>
@@ -119,7 +119,7 @@ namespace ReGoap.Unity {
         /// </summary>
         /// <param name="stackData"></param>
         /// <returns></returns>
-        public ReGoapState<T, W> GetEffect(GoapActionStackData<T, W> stackData) {
+        public virtual ReGoapState<T, W> GetEffect(GoapActionStackData<T, W> stackData) {
             return effects;
         }
         /// <summary>
@@ -127,19 +127,19 @@ namespace ReGoap.Unity {
         /// </summary>
         /// <param name="stackData"></param>
         /// <returns></returns>
-        public float GetCost(GoapActionStackData<T, W> stackData) {
+        public virtual float GetCost(GoapActionStackData<T, W> stackData) {
             return Cost;
         }
         /// <summary>
         /// 检查先决条件
         /// </summary>
-        public bool CheckProceduralCondition(GoapActionStackData<T, W> stackData) {
+        public virtual bool CheckProceduralCondition(GoapActionStackData<T, W> stackData) {
             return true;
         }
         /// <summary>
         /// 开始执行Action
         /// </summary>
-        public void Run(IReGoapAction<T, W> previousAction, IReGoapAction<T, W> nextAction, ReGoapState<T, W> settings, ReGoapState<T, W> goapState,
+        public virtual void Run(IReGoapAction<T, W> previousAction, IReGoapAction<T, W> nextAction, ReGoapState<T, W> settings, ReGoapState<T, W> goapState,
             Action<IReGoapAction<T, W>> done, Action<IReGoapAction<T, W>> fail) {
             interruptWhenPossible = false;
             enabled = true;
@@ -153,26 +153,26 @@ namespace ReGoap.Unity {
         /// 获取名称
         /// </summary>
         /// <returns></returns>
-        public string GetName() {
+        public virtual string GetName() {
             return Name;
         }
         /// <summary>
         /// 当规划到自己的时候会执行
         /// </summary>
-        public void PlanEnter(IReGoapAction<T, W> previousAction, IReGoapAction<T, W> nextAction, ReGoapState<T, W> settings, ReGoapState<T, W> goapState) {
+        public virtual void PlanEnter(IReGoapAction<T, W> previousAction, IReGoapAction<T, W> nextAction, ReGoapState<T, W> settings, ReGoapState<T, W> goapState) {
             
         }
         /// <summary>
         /// 当规划从自己离开的时候会执行
         /// </summary>
-        public void PlanExit(IReGoapAction<T, W> previousAction, IReGoapAction<T, W> nextAction, ReGoapState<T, W> settings, ReGoapState<T, W> goapState) {
+        public virtual void PlanExit(IReGoapAction<T, W> previousAction, IReGoapAction<T, W> nextAction, ReGoapState<T, W> settings, ReGoapState<T, W> goapState) {
 
         }
 
         /// <summary>
         /// 退出
         /// </summary>
-        public void Exit(IReGoapAction<T, W> nextAction) {
+        public virtual void Exit(IReGoapAction<T, W> nextAction) {
             if (gameObject != null)
                 enabled = false;
         }

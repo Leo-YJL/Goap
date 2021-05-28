@@ -189,5 +189,46 @@ namespace ReGoap.Unity.FSMExample.FSM {
         }
         #endregion
 
+        #region StateHandler
+        public override void Init(StateMachine stateMachine) {
+            base.Init(stateMachine);
+            var transition = new SmTransition(GetPriority(), Transition);
+        }
+        private Type DoneTransition(ISmState state) {
+            if (currentState != GoToState.Active)
+                return typeof(SmsIdle);
+            return null;
+        }
+        private Type Transition(ISmState state) {
+            if (currentState == GoToState.Pulsed)
+                return typeof(SmsGoTo);
+            return null;
+        }
+        public void GoTo(Vector3? position, Action onDoneMovement, Action onFailureMovement) {
+            objective = position;
+            GoTo(onDoneMovement, onFailureMovement);
+        }
+        public void GoTo(Transform transform, Action onDoneMovement, Action onFailureMovement) {
+            objectiveTransform = transform;
+            GoTo(onDoneMovement, onFailureMovement);
+        }
+        void GoTo(Action onDoneMovement, Action onFailureMovement) {
+            currentState = GoToState.Pulsed;
+            onDoneMovementCallback = onDoneMovement;
+            onFailureMovementCallback = onFailureMovement;
+        }
+        public override void Enter() {
+            base.Enter();
+            currentState = GoToState.Active;
+        }
+
+        public override void Exit() {
+            base.Exit();
+            if (currentState == GoToState.Success)
+                onDoneMovementCallback();
+            else
+                onFailureMovementCallback();
+        }
+        #endregion
     }
 }

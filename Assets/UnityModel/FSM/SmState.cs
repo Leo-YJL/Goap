@@ -35,25 +35,25 @@ namespace ReGoap.Unity.FSM {
         #region ISmState
 
 
-        public void Enter() {
+        public virtual void Enter() {
             
         }
 
-        public void Exit() {
+        public virtual void Exit() {
 
         }
         /// <summary>
         /// 获取优先级（越大越受青睐）
         /// </summary>
-        public int GetPriority() {
+        public virtual int GetPriority() {
             return priority;
         }
 
-        public void Init(StateMachine stateMachine) {
+        public virtual void Init(StateMachine stateMachine) {
        
         }
 
-        public bool IsActive() {
+        public virtual bool IsActive() {
             return enabled;
         }
         #endregion
