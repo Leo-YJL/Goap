@@ -1,172 +1,214 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using ReGoap.Utilities;
 
-
-namespace ReGoap.Core {
+namespace ReGoap.Core
+{
     /// <summary>
     /// 状态接口
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="W"></typeparam>
-    public class ReGoapState<T, W> {
+    public class ReGoapState<T, W>
+    {
+        // can change to object
         /// <summary>
         /// 真正的值
         /// </summary>
         private ConcurrentDictionary<T, W> values;
+
         /// <summary>
         /// 缓冲区A
         /// </summary>
         private readonly ConcurrentDictionary<T, W> bufferA;
+
         /// <summary>
         /// 缓冲区B
         /// </summary>
         private readonly ConcurrentDictionary<T, W> bufferB;
+
         /// <summary>
         /// 默认大小
         /// </summary>
-        public static int Defaultsize = 20;
+        public static int DefaultSize = 20;
 
-        private ReGoapState() {
-            bufferA = new ConcurrentDictionary<T, W>(5, Defaultsize);
-            bufferB = new ConcurrentDictionary<T, W>(5, Defaultsize);
+        private ReGoapState()
+        {
+            bufferA = new ConcurrentDictionary<T, W>(5, DefaultSize);
+            bufferB = new ConcurrentDictionary<T, W>(5, DefaultSize);
             values = bufferA;
         }
+
         /// <summary>
         /// 初始化
         /// </summary>
         /// <param name="old">目标来源</param>
-        private void Init(ReGoapState<T,W> old) {
+        private void Init(ReGoapState<T, W> old)
+        {
             values.Clear();
-            if (old != null) {
-                lock (old.values) {
-                    foreach (var pair in old.values) {
+            if (old != null)
+            {
+                lock (old.values)
+                {
+                    foreach (var pair in old.values)
+                    {
                         values[pair.Key] = pair.Value;
                     }
                 }
             }
         }
+
         /// <summary>
         /// 重载+运算符，取两个状态集合的并集
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static ReGoapState<T,W> operator +(ReGoapState<T,W> a, ReGoapState<T,W> b) {
+        public static ReGoapState<T, W> operator +(ReGoapState<T, W> a, ReGoapState<T, W> b)
+        {
             ReGoapState<T, W> result;
-            lock (a.values) {
+            lock (a.values)
+            {
                 result = Instantiate(a);
             }
-            lock (b.values) {
-                foreach (var pair in b.values) {
+
+            lock (b.values)
+            {
+                foreach (var pair in b.values)
                     result.values[pair.Key] = pair.Value;
-                }
                 return result;
             }
-        } 
+        }
+
         /// <summary>
         /// 从一个状态集合中加入状态到自身
         /// </summary>
         /// <param name="b"></param>
-        public void AddFromState(ReGoapState<T,W> b) {
-            lock(values)
-            lock (b.values) {
-                foreach (var pair in b.values) {
+        public void AddFromState(ReGoapState<T, W> b)
+        {
+            lock (values)
+            lock (b.values)
+            {
+                foreach (var pair in b.values)
                     values[pair.Key] = pair.Value;
-                }
             }
         }
+
         /// <summary>
         /// 状态的数量
         /// </summary>
-        public int Count {
+        public int Count
+        {
             get { return values.Count; }
         }
+
         /// <summary>
-        /// 当前状态是否与另一状态集有交集
+        /// 当前状态集是否与另一状态集有交集
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool HasAny(ReGoapState<T,W> other) {
-            lock(values)
-            lock (other.values) {
-                foreach (var pair in other.values) {
+        public bool HasAny(ReGoapState<T, W> other)
+        {
+            lock (values)
+            lock (other.values)
+            {
+                foreach (var pair in other.values)
+                {
                     W thisValue;
                     values.TryGetValue(pair.Key, out thisValue);
-                    if (Equals(thisValue,pair.Value)) {
+                    if (Equals(thisValue, pair.Value))
                         return true;
-                    }
                 }
+
                 return false;
             }
         }
+
         /// <summary>
         /// 当前状态集是否和另一状态集有差别
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool HasAnyConflict(ReGoapState<T,W> other) {
+        public bool HasAnyConflict(ReGoapState<T, W> other) // used only in backward for now
+        {
             lock (values)
-            lock (other.values) {
-                foreach (var pair in other.values) {
+            lock (other.values)
+            {
+                foreach (var pair in other.values)
+                {
+                    var otherValue = pair.Value;
+
+                    // not here, ignore this check
                     W thisValue;
-                    values.TryGetValue(pair.Key, out thisValue);
-                    if (Equals(thisValue, pair.Value)) {
+                    if (!values.TryGetValue(pair.Key, out thisValue))
+                        continue;
+                    if (!Equals(otherValue, thisValue))
                         return true;
-                    }
                 }
+
                 return false;
             }
         }
+
+        // this method is more relaxed than the other, also accepts conflits that are fixed by "changes"
         /// <summary>
         /// 当前状态集是否和另一状态集有差别，还额外受到changes状态集影响
         /// </summary>
         /// <param name="changes"></param>
         /// <param name="other"></param>
         /// <returns></returns>
-        public bool HasAnyConflict(ReGoapState<T, W> changes, ReGoapState<T, W> other) {
+        public bool HasAnyConflict(ReGoapState<T, W> changes, ReGoapState<T, W> other)
+        {
             lock (values)
-                lock (other.values) {
-                    foreach (var pair in other.values) {
-                        var otherValue = pair.Value;
+            lock (other.values)
+            {
+                foreach (var pair in other.values)
+                {
+                    var otherValue = pair.Value;
 
-                        W thisValue;
-                        if (!values.TryGetValue(pair.Key, out thisValue)) {
-                            continue;
-                        }
-                        W effectValue;
-
-                        changes.values.TryGetValue(pair.Key, out effectValue);
-                        if (!Equals(otherValue, thisValue) && !Equals(effectValue, thisValue)) {
-                            return true;
-                        }
-                    }
-                    return false;
+                    // not here, ignore this check
+                    W thisValue;
+                    if (!values.TryGetValue(pair.Key, out thisValue))
+                        continue;
+                    W effectValue;
+                    changes.values.TryGetValue(pair.Key, out effectValue);
+                    if (!Equals(otherValue, thisValue) && !Equals(effectValue, thisValue))
+                        return true;
                 }
+
+                return false;
+            }
         }
 
         /// <summary>
-        /// 对比两个状态集有多少个不同的状态，并返回一个小于stopAt的值（不同状态的个数）
+        /// 对比两个状态集有多少不同的状态，并返回一个小于stopAt的值（不同状态的个数）
         /// </summary>
         /// <param name="other"></param>
         /// <param name="stopAt"></param>
         /// <returns></returns>
-        public int MissingDifference(ReGoapState<T, W> other, int stopAt = int.MaxValue) {
-            lock (values) {
+        public int MissingDifference(ReGoapState<T, W> other, int stopAt = int.MaxValue)
+        {
+            lock (values)
+            {
                 var count = 0;
-                foreach (var pair in values) {
+                foreach (var pair in values)
+                {
                     W otherValue;
                     other.values.TryGetValue(pair.Key, out otherValue);
-                    if (!Equals(pair.Value,otherValue)) {
+                    if (!Equals(pair.Value, otherValue))
+                    {
                         count++;
-                        if (count >= stopAt) {
+                        if (count >= stopAt)
                             break;
-                        }
                     }
                 }
+
                 return count;
             }
         }
+
+        // write differences in "difference"
         /// <summary>
         /// 对比两个状态集有多少不同的状态，并把不同的状态写入到difference集合中，并返回一个小于stopAt的值（不同状态的个数）
         /// </summary>
@@ -176,28 +218,31 @@ namespace ReGoap.Core {
         /// <param name="predicate"></param>
         /// <param name="test"></param>
         /// <returns></returns>
-        public int MissingDifference(ReGoapState<T, W> other, ref ReGoapState<T, W> difference, int stopAt = int.MaxValue,
-            Func<KeyValuePair<T, W>, W, bool> predicate = null, bool test = false) {
-
-            lock (values) {
+        public int MissingDifference(ReGoapState<T, W> other, ref ReGoapState<T, W> difference,
+            int stopAt = int.MaxValue, Func<KeyValuePair<T, W>, W, bool> predicate = null, bool test = false)
+        {
+            lock (values)
+            {
                 var count = 0;
-                foreach (var pair in values) {
+                foreach (var pair in values)
+                {
                     W otherValue;
                     other.values.TryGetValue(pair.Key, out otherValue);
-                    if (!Equals(pair.Value, otherValue) && (predicate == null || predicate(pair,otherValue))) {
+                    if (!Equals(pair.Value, otherValue) && (predicate == null || predicate(pair, otherValue)))
+                    {
                         count++;
-                        if (difference != null) {
+                        if (difference != null)
                             difference.values[pair.Key] = pair.Value;
-                        }
-                        if (count >= stopAt) {
+                        if (count >= stopAt)
                             break;
-                        }
                     }
                 }
+
                 return count;
             }
-
         }
+
+        // keep only missing differences in values
         /// <summary>
         /// 只在状态集中保留不同的部分
         /// </summary>
@@ -206,42 +251,44 @@ namespace ReGoap.Core {
         /// <param name="predicate"></param>
         /// <param name="test"></param>
         /// <returns></returns>
-        public int ReplaceWithMissingDifference(ReGoapState<T,W> other,int stopAt = int.MaxValue,
-             Func<KeyValuePair<T, W>, W, bool> predicate = null, bool test = false) {
-
-            lock (values) {
+        public int ReplaceWithMissingDifference(ReGoapState<T, W> other, int stopAt = int.MaxValue,
+            Func<KeyValuePair<T, W>, W, bool> predicate = null, bool test = false)
+        {
+            lock (values)
+            {
                 var count = 0;
                 var buffer = values;
                 values = values == bufferA ? bufferB : bufferA;
                 values.Clear();
-                foreach (var pair in buffer) {
-
+                foreach (var pair in buffer)
+                {
                     W otherValue;
                     other.values.TryGetValue(pair.Key, out otherValue);
-
-                    if (!Equals(pair.Value, otherValue) && (predicate == null || predicate(pair, otherValue))) {
+                    if (!Equals(pair.Value, otherValue) && (predicate == null || predicate(pair, otherValue)))
+                    {
                         count++;
                         values[pair.Key] = pair.Value;
-                        if (count >= stopAt) {
+                        if (count >= stopAt)
                             break;
-                        }
                     }
                 }
+
                 return count;
             }
         }
-
 
         /// <summary>
         /// 复制自己
         /// </summary>
         /// <returns></returns>
-        public ReGoapState<T, W> Clone() {
+        public ReGoapState<T, W> Clone()
+        {
             return Instantiate(this);
         }
 
 
         #region StateFactory
+
         /// <summary>
         /// 状态集缓存
         /// </summary>
@@ -251,9 +298,11 @@ namespace ReGoap.Core {
         /// 预热
         /// </summary>
         /// <param name="count"></param>
-        public static void Warmup(int count) {
+        public static void Warmup(int count)
+        {
             cachedStates = new Stack<ReGoapState<T, W>>(count);
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < count; i++)
+            {
                 cachedStates.Push(new ReGoapState<T, W>());
             }
         }
@@ -261,105 +310,125 @@ namespace ReGoap.Core {
         /// <summary>
         /// 回收
         /// </summary>
-        public void Recycle() {
-            lock (cachedStates) {
+        public void Recycle()
+        {
+            lock (cachedStates)
+            {
                 cachedStates.Push(this);
             }
         }
-       /// <summary>
-       /// 实例化
-       /// </summary>
-       /// <param name="old"></param>
-       /// <returns></returns>
-        public static ReGoapState<T, W> Instantiate(ReGoapState<T, W> old = null) {
+
+        /// <summary>
+        /// 实例化
+        /// </summary>
+        /// <param name="old"></param>
+        /// <returns></returns>
+        public static ReGoapState<T, W> Instantiate(ReGoapState<T, W> old = null)
+        {
             ReGoapState<T, W> state;
-            if (cachedStates == null) {
+            if (cachedStates == null)
+            {
                 cachedStates = new Stack<ReGoapState<T, W>>();
             }
 
-            lock (cachedStates) {
+            lock (cachedStates)
+            {
                 state = cachedStates.Count > 0 ? cachedStates.Pop() : new ReGoapState<T, W>();
             }
+            //ReGoapLogger.Log($"状态池剩余元素个数：{cachedStates.Count}");
             state.Init(old);
-            return null;
+            return state;
         }
+
         #endregion
 
-        public override string ToString() {
-            lock (values) {
+        public override string ToString()
+        {
+            lock (values)
+            {
                 var result = "";
-                foreach (var pair in values) {
-                    result = $"{result}{string.Format("'{0}': {1}, ", pair.Key, pair.Value)}";
-                }
+                foreach (var pair in values)
+                    result += string.Format("'{0}': {1}, ", pair.Key, pair.Value);
                 return result;
             }
         }
 
         /// <summary>
-        /// 获取对应的状态
+        /// 根据键来获取状态
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public W Get(T key) {
-            lock (values) {
-                if (!values.ContainsKey(key)) {
+        public W Get(T key)
+        {
+            lock (values)
+            {
+                if (!values.ContainsKey(key))
                     return default(W);
-                }
                 return values[key];
             }
         }
+
         /// <summary>
-        /// 设置状态的值
+        /// 设置状态
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public void Set(T key, W value) {
-            lock (values) {
+        public void Set(T key, W value)
+        {
+            lock (values)
+            {
                 values[key] = value;
             }
         }
+
         /// <summary>
         /// 移除状态
         /// </summary>
         /// <param name="key"></param>
-        public void Remove(T key) {
+        public void Remove(T key)
+        {
             values.TryRemove(key, out _);
         }
+
         /// <summary>
         /// 获取所有状态
         /// </summary>
         /// <returns></returns>
-        public ConcurrentDictionary<T,W> GetValues() {
-            lock (values) {
+        public ConcurrentDictionary<T, W> GetValues()
+        {
+            lock (values)
                 return values;
-            }
         }
+
         /// <summary>
         /// 尝试获取元素
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool TryGetValue(T key,out W value) {
+        public bool TryGetValue(T key, out W value)
+        {
             return values.TryGetValue(key, out value);
-        }   
+        }
+
         /// <summary>
         /// 是否拥有某个key
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool HasKey(T key) {
-            lock (values) {
+        public bool HasKey(T key)
+        {
+            lock (values)
                 return values.ContainsKey(key);
-            }
         }
+
         /// <summary>
         /// 清理状态集
         /// </summary>
-        public void Clear() {
-            lock (values) {
+        public void Clear()
+        {
+            lock (values)
                 values.Clear();
-            }
         }
     }
 }
