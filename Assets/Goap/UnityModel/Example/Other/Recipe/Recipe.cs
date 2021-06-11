@@ -20,7 +20,7 @@ namespace ReGoap.Unity.FSMExample.OtherScripts
         public string CraftName;
 
         /// <summary>
-        /// 配方名称
+        /// 配方等级
         /// </summary>
         public int CraftLevel;
 

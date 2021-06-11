@@ -80,6 +80,7 @@
     <Compile Include="Assets\Goap\Planner\ReGoapPlanner.cs" />
     <Compile Include="Assets\Goap\Planner\ReGoapPlannerSettings.cs" />
     <Compile Include="Assets\Goap\UnityModel\Example\Actions\AddResourceToBankAction.cs" />
+    <Compile Include="Assets\Goap\UnityModel\Example\Actions\BuyResourceAction.cs" />
     <Compile Include="Assets\Goap\UnityModel\Example\Actions\CraftRecipeAction.cs" />
     <Compile Include="Assets\Goap\UnityModel\Example\Actions\GatherResourceAction.cs" />
     <Compile Include="Assets\Goap\UnityModel\Example\Actions\GenericGoToAction.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="Assets\Goap\UnityModel\ReGoapMemoryAdvanced.cs" />
     <Compile Include="Assets\Goap\UnityModel\ReGoapPlannerManager.cs" />
     <Compile Include="Assets\Goap\UnityModel\ReGoapSensor.cs" />
+    <Compile Include="Assets\Goap\UnityModel\Test\TestUI.cs" />
     <Compile Include="Assets\Goap\Utilities\ReGoapLogger.cs" />
     <Compile Include="Assets\Goap\Utilities\ThreadSyncHelper.cs" />
     <Reference Include="UnityEngine">

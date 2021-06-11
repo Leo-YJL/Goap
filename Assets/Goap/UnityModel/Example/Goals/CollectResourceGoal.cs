@@ -15,6 +15,11 @@ namespace ReGoap.Unity.FSMExample.Goals
         protected override void Awake()
         {
             base.Awake();
+          //  SetGoalName(ResourceName);
+        }
+
+        public void SetGoalName(string _name) {
+            ResourceName = _name;
             goal.Set("collectedResource" + ResourceName, true);
             goal.Set("reconcilePosition", true);
         }

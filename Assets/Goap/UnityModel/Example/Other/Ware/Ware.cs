@@ -64,6 +64,11 @@ namespace ReGoap.Unity.FSMExample.OtherScripts
             }
         }
 
+        public bool RemoveResource(string resourceName, float value = 1f) {
+            bankBag.RemoveResource(resourceName, value);
+            Txt.text = bankBag.GetResource(resourceName).ToString();
+            return true;
+        }
         public string GetName()
         {
             return Name;
