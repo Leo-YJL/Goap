@@ -36,22 +36,35 @@ namespace ReGoap.Unity.FSMExample.Actions
         protected override void Awake()
         {
             base.Awake();
-            recipe = RawRecipe as IRecipe;
-            if (recipe == null)
-                throw new UnityException("[CraftRecipeAction] The rawRecipe ScriptableObject must implement IRecipe.");
+            //recipe = RawRecipe as IRecipe;
+            //if (recipe == null)
+            //    throw new UnityException("[CraftRecipeAction] The rawRecipe ScriptableObject must implement IRecipe.");
             resourcesBag = GetComponent<ResourcesBag>();
 
             // could implement a more flexible system that handles dynamic resources's count
-            //设置前置条件和效果
-            foreach (var pair in recipe.GetNeededResources())
-            {
+            ////设置前置条件和效果
+            //foreach (var pair in recipe.GetNeededResources())
+            //{
+            //    preconditions.Set("hasResource" + pair.Key, true);
+            //}
+
+            //effects.Set("hasResource" + recipe.GetCraftedResource(), true);
+            if (RawRecipe != null) {
+                SetRecipe(RawRecipe as IRecipe);
+            }
+            settingsList = new List<ReGoapState<string, object>>();
+        }
+
+        public void SetRecipe(IRecipe _re) {
+            recipe = _re as IRecipe;
+            foreach (var pair in recipe.GetNeededResources()) {
                 preconditions.Set("hasResource" + pair.Key, true);
             }
 
             effects.Set("hasResource" + recipe.GetCraftedResource(), true);
 
-            settingsList = new List<ReGoapState<string, object>>();
         }
+
 
         /// <summary>
         /// 获取设置
