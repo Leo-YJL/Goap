@@ -1,5 +1,8 @@
 using ReGoap.Core;
+using ReGoap.Unity.FSMExample.Actions;
 using ReGoap.Unity.FSMExample.Agents;
+using ReGoap.Unity.FSMExample.Goals;
+using ReGoap.Unity.FSMExample.OtherScripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -88,11 +91,27 @@ public class Test1UI : MonoBehaviour
     }
     public void CreatGoal() {
         showInfo1.Add("Goal", $"目标是存放 {goalDrop.captionText.text}");
+        var g = cagent.AddComponent<CollectResourceGoal>();
+        g.SetGoal(goalDrop.captionText.text);
         ShowInfo1();
     }
     public void CtratAction() {
 
         showInfo1.Add("Action" + actionIdx++, $"需要{actionDrop1.captionText.text}_{actionDrop2.captionText.text}_{actionDrop3.captionText.text}=>获得{effDrop.captionText.text}");
+        var g = cagent.AddComponent<CraftRecipeAction>();
+        Recipe re = new Recipe();
+        if (actionDrop1.captionText.text != "Null") {
+            re.NeededResourcesName.Add(actionDrop1.captionText.text);
+        }
+        if (actionDrop2.captionText.text != "Null") {
+            re.NeededResourcesName.Add(actionDrop2.captionText.text);
+        }
+        if (actionDrop3.captionText.text != "Null") {
+            re.NeededResourcesName.Add(actionDrop3.captionText.text);
+        }
+        re.CraftName = effDrop.captionText.text;
+        g.SetRecipe(re);
+
         ShowInfo1();
     }
     public void CtratBuyAction() {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using ReGoap.Core;
 using ReGoap.Unity.FSMExample.OtherScripts;
@@ -41,22 +41,23 @@ namespace ReGoap.Unity.FSMExample.Actions
             //    throw new UnityException("[CraftRecipeAction] The rawRecipe ScriptableObject must implement IRecipe.");
             resourcesBag = GetComponent<ResourcesBag>();
 
-
+            if (RawRecipe != null) {
+                SetRecipe(RawRecipe as IRecipe);
+            }
           //  SetRecipe(RawRecipe as Recipe);
             settingsList = new List<ReGoapState<string, object>>();
         }
 
-        public void SetRecipe(Recipe _recipe) {
-
-            recipe = _recipe;
-            // could implement a more flexible system that handles dynamic resources's count
-            //设置前置条件和效果
+        public void SetRecipe(IRecipe _re) {
+            recipe = _re as IRecipe;
             foreach (var pair in recipe.GetNeededResources()) {
                 preconditions.Set("hasResource" + pair.Key, true);
             }
 
             effects.Set("hasResource" + recipe.GetCraftedResource(), true);
+
         }
+
         /// <summary>
         /// 获取设置
         /// </summary>

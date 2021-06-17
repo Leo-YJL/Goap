@@ -14065,8 +14065,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1893937489}
-  - component: {fileID: 1893937488}
-  - component: {fileID: 1893937487}
   - component: {fileID: 1893937486}
   - component: {fileID: 1893937485}
   - component: {fileID: 1893937484}
@@ -14074,16 +14072,12 @@ GameObject:
   - component: {fileID: 1893937482}
   - component: {fileID: 1893937481}
   - component: {fileID: 1893937480}
-  - component: {fileID: 1893937479}
-  - component: {fileID: 1893937478}
   - component: {fileID: 1893937477}
   - component: {fileID: 1893937476}
   - component: {fileID: 1893937475}
-  - component: {fileID: 1893937474}
   - component: {fileID: 1893937473}
   - component: {fileID: 1893937472}
   - component: {fileID: 1893937471}
-  - component: {fileID: 1893937470}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Untagged
@@ -14091,21 +14085,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &1893937470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893937469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab50599567678b64ca8ec730850225e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: CraftPickAction
-  Cost: 1
-  RawRecipe: {fileID: 11400000, guid: 1bec12ea2fee8464e90f45120636947a, type: 2}
 --- !u!114 &1893937471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14144,21 +14123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767576b6fff193745a17d8f5aebc2809, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1893937474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893937469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab50599567678b64ca8ec730850225e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: CraftAxeAction
-  Cost: 1
-  RawRecipe: {fileID: 11400000, guid: 3b24b2d3ae8c18f4a94a62382d9af851, type: 2}
 --- !u!114 &1893937475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14206,36 +14170,6 @@ MonoBehaviour:
   ExpandOnAllResources: 0
   TimeToGather: 0.5
   ResourcePerAction: 1
---- !u!114 &1893937478
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893937469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab50599567678b64ca8ec730850225e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: CraftWoodAction
-  Cost: 1
-  RawRecipe: {fileID: 11400000, guid: 47ec70e92b8260a498478dc29fc936f2, type: 2}
---- !u!114 &1893937479
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893937469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab50599567678b64ca8ec730850225e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: CraftOreAction
-  Cost: 1
-  RawRecipe: {fileID: 11400000, guid: f9e3866ccb48961409435b6d24378a1b, type: 2}
 --- !u!114 &1893937480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14335,39 +14269,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 0
---- !u!114 &1893937487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893937469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f34f0c22a1287d48aa9f695c6061920, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: Goal
-  Priority: 1
-  ErrorDelay: 0.5
-  WarnPossibleGoal: 1
-  ResourceName: Pick
---- !u!114 &1893937488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893937469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6e80e91378b40c4480fa3496bd04c54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: Agent
-  CalculationDelay: 0.5
-  BlackListGoalOnFailure: 0
-  CalculateNewGoalOnStart: 1
 --- !u!4 &1893937489
 Transform:
   m_ObjectHideFlags: 0
