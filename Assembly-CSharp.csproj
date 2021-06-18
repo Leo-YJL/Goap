@@ -79,7 +79,9 @@
     <Compile Include="Assets\Goap\Planner\ReGoapNode.cs" />
     <Compile Include="Assets\Goap\Planner\ReGoapPlanner.cs" />
     <Compile Include="Assets\Goap\Planner\ReGoapPlannerSettings.cs" />
+    <Compile Include="Assets\Goap\Test1UI.cs" />
     <Compile Include="Assets\Goap\UnityModel\Example\Actions\AddResourceToBankAction.cs" />
+    <Compile Include="Assets\Goap\UnityModel\Example\Actions\BuyAction.cs" />
     <Compile Include="Assets\Goap\UnityModel\Example\Actions\BuyResourceAction.cs" />
     <Compile Include="Assets\Goap\UnityModel\Example\Actions\CraftRecipeAction.cs" />
     <Compile Include="Assets\Goap\UnityModel\Example\Actions\GatherResourceAction.cs" />

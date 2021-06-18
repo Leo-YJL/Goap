@@ -45,7 +45,7 @@ public class TestUI : MonoBehaviour
     public void AddGoal() {
         var ac = CurAgent.AddComponent<CollectResourceGoal>();
         //ac.ResourceName = goalName.name;
-        ac.SetGoalName(goalName.text);
+        ac.SetGoal(goalName.text);
     }
 
     public void CreatAgent() {

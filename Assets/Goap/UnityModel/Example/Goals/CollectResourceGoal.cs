@@ -18,7 +18,7 @@ namespace ReGoap.Unity.FSMExample.Goals
           //  SetGoalName(ResourceName);
         }
 
-        public void SetGoalName(string _name) {
+        public void SetGoal(string _name) {
             ResourceName = _name;
             goal.Set("collectedResource" + ResourceName, true);
             goal.Set("reconcilePosition", true);

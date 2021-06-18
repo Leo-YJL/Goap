@@ -60,11 +60,14 @@ public class Test1UI : MonoBehaviour
     [HideInInspector]
     public int actionIdx = 0;
     public void CreatAgent() {
-        cagent = GameObject.Instantiate(agent);
+        cagent = GameObject.Instantiate(agent, AgentP.transform);
         agentDic.Add(agentIdx.ToString(), cagent);
+        
         cagent.SetActive(true);
          agentIdx++;
         InitDic();
+        OpenCreat();
+        showInfo1.Clear();
     }
     public void DeletAgent() {
         //   Destroy(agentDic)
@@ -100,6 +103,7 @@ public class Test1UI : MonoBehaviour
         showInfo1.Add("Action" + actionIdx++, $"需要{actionDrop1.captionText.text}_{actionDrop2.captionText.text}_{actionDrop3.captionText.text}=>获得{effDrop.captionText.text}");
         var g = cagent.AddComponent<CraftRecipeAction>();
         Recipe re = new Recipe();
+        re.NeededResourcesName = new List<string>();
         if (actionDrop1.captionText.text != "Null") {
             re.NeededResourcesName.Add(actionDrop1.captionText.text);
         }
@@ -110,12 +114,21 @@ public class Test1UI : MonoBehaviour
             re.NeededResourcesName.Add(actionDrop3.captionText.text);
         }
         re.CraftName = effDrop.captionText.text;
+
+        if (toolDrop.captionText.text == "工作台") {
+            re.CraftLevel = 3;
+        } else {
+            re.CraftLevel = 1;
+        }
+        
+
         g.SetRecipe(re);
 
         ShowInfo1();
     }
     public void CtratBuyAction() {
         showInfo1.Add("Action" + actionIdx++, "从仓库取出Axe");
+        cagent.AddComponent<BuyResourceAction>();
         ShowInfo1();
     }
     public void StartTo() {
@@ -123,10 +136,11 @@ public class Test1UI : MonoBehaviour
         creatGo.SetActive(false);
     }
     #endregion
+
     #region Open
     public Text Openinfo;
     public void ShowInfo() {
-        var ag = agentDic[showDrop.captionText.text].AddComponent<BuilderAgent>();
+        var ag = agentDic[showDrop.captionText.text].GetComponent<BuilderAgent>();
         Openinfo.text = "";
         if (ag != null) {
             string a = "";

@@ -26,7 +26,7 @@ ScriptsOnlyBuild:
     - ReGoap.Unity.FSMExample.Sensors.ResourcesBagSensor
     - ReGoap.Unity.FSMExample.Sensors.WareSensor
     - ReGoap.Unity.FSMExample.Sensors.WorkstationSensor
-    - TestUI
+    - Test1UI
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
     UnityEditor.TestRunner.dll:
@@ -38,10 +38,14 @@ ScriptsOnlyBuild:
     - UnityEngine.EventSystems.StandaloneInputModule
     - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
+    - UnityEngine.UI.Dropdown
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
-    - UnityEngine.UI.InputField
+    - UnityEngine.UI.Mask
+    - UnityEngine.UI.ScrollRect
+    - UnityEngine.UI.Scrollbar
     - UnityEngine.UI.Text
+    - UnityEngine.UI.Toggle
   sceneClasses:
     Assets/Scenes/TextScene.unity:
     - Class: 1
@@ -79,6 +83,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11326}
     - Class: 114
+      Script: {instanceID: 11328}
+    - Class: 114
       Script: {instanceID: 11366}
     - Class: 114
       Script: {instanceID: 11420}
@@ -93,51 +99,57 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11656}
     - Class: 114
-      Script: {instanceID: 11774}
+      Script: {instanceID: 11682}
     - Class: 114
-      Script: {instanceID: 11866}
+      Script: {instanceID: 11732}
+    - Class: 114
+      Script: {instanceID: 11776}
     - Class: 114
       Script: {instanceID: 11868}
     - Class: 114
-      Script: {instanceID: 11940}
+      Script: {instanceID: 11870}
     - Class: 114
-      Script: {instanceID: 11974}
+      Script: {instanceID: 11942}
     - Class: 114
-      Script: {instanceID: 12022}
+      Script: {instanceID: 11976}
     - Class: 114
-      Script: {instanceID: 12186}
+      Script: {instanceID: 11978}
     - Class: 114
-      Script: {instanceID: 12256}
+      Script: {instanceID: 12024}
     - Class: 114
-      Script: {instanceID: 12276}
+      Script: {instanceID: 12190}
     - Class: 114
-      Script: {instanceID: 12332}
+      Script: {instanceID: 12260}
     - Class: 114
-      Script: {instanceID: 12382}
+      Script: {instanceID: 12280}
     - Class: 114
-      Script: {instanceID: 12412}
+      Script: {instanceID: 12338}
     - Class: 114
-      Script: {instanceID: 12442}
+      Script: {instanceID: 12418}
     - Class: 114
-      Script: {instanceID: 12538}
+      Script: {instanceID: 12448}
     - Class: 114
-      Script: {instanceID: 12568}
+      Script: {instanceID: 12544}
     - Class: 114
-      Script: {instanceID: 12592}
+      Script: {instanceID: 12574}
     - Class: 114
-      Script: {instanceID: 12640}
+      Script: {instanceID: 12598}
     - Class: 114
-      Script: {instanceID: 12694}
+      Script: {instanceID: 12700}
     - Class: 114
-      Script: {instanceID: 12742}
+      Script: {instanceID: 12748}
     - Class: 114
-      Script: {instanceID: 12792}
+      Script: {instanceID: 12798}
     - Class: 114
-      Script: {instanceID: 13002}
+      Script: {instanceID: 13008}
     - Class: 114
       Script: {instanceID: 13052}
     - Class: 114
-      Script: {instanceID: 13060}
+      Script: {instanceID: 13058}
+    - Class: 114
+      Script: {instanceID: 13066}
+    - Class: 114
+      Script: {instanceID: 13082}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -375,6 +387,12 @@ ScriptsOnlyBuild:
     className: Shadow
   - hash:
       serializedVersion: 2
+      Hash: 670f13ed05306ab767bcfa12210d81f0
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Test1UI
+  - hash:
+      serializedVersion: 2
       Hash: c78f40c0d42b86c1fbfa02c8f1d2608f
     assemblyName: Assembly-CSharp.dll
     namespaceName: ReGoap.Unity.FSM
@@ -465,6 +483,12 @@ ScriptsOnlyBuild:
     className: TMP_SpriteAnimator
   - hash:
       serializedVersion: 2
+      Hash: ce6e8b92f22ccf8bf942e13a83ca4854
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ReGoap.Unity.FSMExample.Actions
+    className: BuyAction
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestTools.TestRunner.Callbacks
@@ -499,6 +523,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: ReGoap.Unity.FSMExample.Memories
     className: BuilderMemory
+  - hash:
+      serializedVersion: 2
+      Hash: ce6e8b92f22ccf8bf942e13a83ca4854
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ReGoap.Unity.FSMExample.Actions
+    className: BuyResourceAction
   - hash:
       serializedVersion: 2
       Hash: 5ad4aa237d47ac2bab17bacb672edf7a
@@ -763,13 +793,7 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
-  - hash:
-      serializedVersion: 2
-      Hash: ce6e8b92f22ccf8bf942e13a83ca4854
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: ReGoap.Unity.FSMExample.Actions
-    className: BuyResourceAction
   platform: 5
   scenePathNames:
   - Assets/Scenes/TextScene.unity
-  playerPath: D:/github/Goap/11/YGoap.exe
+  playerPath: "D:/github/Goap/\u65B0\u5EFA\u6587\u4EF6\u5939/YGoap.exe"
